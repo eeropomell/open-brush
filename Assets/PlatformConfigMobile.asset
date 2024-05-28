@@ -15,7 +15,7 @@ MonoBehaviour:
   HullBrushMaxVertInputs: 400
   HullBrushMaxKnots: 900
   ReferenceImagesMaxFileSize: 1677721600
-  ReferenceImagesMaxDimension: 17408
+  ReferenceImagesMaxDimension: 34816
   ReferenceImagesResizeDimension: 1024
   MemoryWarningVertCount: 1000000
   UseFileSystemWatcher: 1
