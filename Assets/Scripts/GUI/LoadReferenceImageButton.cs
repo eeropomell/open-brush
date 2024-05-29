@@ -24,14 +24,14 @@ namespace TiltBrush
 
         [SerializeField] private LocalizedString m_ErrorHelpText;
 
-
-
         public void RefreshDescription()
         {
             if (ReferenceImage != null)
             {
 
-                if (!ReferenceImage.Valid)
+                // Problem: image can have error for other reasons too, not just for being too large
+                // displays "Image too large to load" under the file name.
+                if (ReferenceImage.Icon == ReferenceImageCatalog.m_Instance.ErrorImage)
                 {
                     SetDescriptionText(App.ShortenForDescriptionText(ReferenceImage.FileName), ImageErrorExtraDescription());
                 }
@@ -45,7 +45,7 @@ namespace TiltBrush
 
         override protected void OnButtonPressed()
         {
-            if (ReferenceImage == null || !ReferenceImage.Valid)
+            if (ReferenceImage == null)
             {
                 return;
             }
@@ -72,6 +72,20 @@ namespace TiltBrush
         override public void ResetState()
         {
             base.ResetState();
+
+            // Make ourselves unavailable if our image has an error.
+            bool available = false;
+            if (ReferenceImage != null)
+            {
+                available = ReferenceImage.NotLoaded || ReferenceImage.Valid;
+            }
+
+            if (available != IsAvailable())
+            {
+                SetButtonAvailable(available);
+            }
+
+            RefreshDescription();
         }
 
         public string ImageErrorExtraDescription()
