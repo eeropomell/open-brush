@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HullBrushMaxVertInputs: 400
   HullBrushMaxKnots: 900
-  ReferenceImagesMaxFileSize: 419430400
+  ReferenceImagesMaxFileSize: 20000000
   ReferenceImagesMaxDimension: 2785280
   ReferenceImagesResizeDimension: 8192
   MemoryWarningVertCount: 1000000
