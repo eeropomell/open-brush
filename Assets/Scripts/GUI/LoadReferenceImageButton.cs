@@ -22,18 +22,17 @@ namespace TiltBrush
     {
         public ReferenceImage ReferenceImage { get; set; }
 
-        [SerializeField] private LocalizedString m_ErrorHelpText;
-
-
-
         public void RefreshDescription()
         {
             if (ReferenceImage != null)
             {
 
-                if (!ReferenceImage.Valid)
+                // null if image doesn't have error
+                string errorMessage = ReferenceImage.ImageErrorExtraDescription();
+
+                if (errorMessage != null)
                 {
-                    SetDescriptionText(App.ShortenForDescriptionText(ReferenceImage.FileName), ImageErrorExtraDescription());
+                    SetDescriptionText(App.ShortenForDescriptionText(ReferenceImage.FileName), errorMessage);
                 }
                 else
                 {
@@ -45,7 +44,7 @@ namespace TiltBrush
 
         override protected void OnButtonPressed()
         {
-            if (ReferenceImage == null || !ReferenceImage.Valid)
+            if (ReferenceImage == null)
             {
                 return;
             }
@@ -72,11 +71,20 @@ namespace TiltBrush
         override public void ResetState()
         {
             base.ResetState();
-        }
 
-        public string ImageErrorExtraDescription()
-        {
-            return m_ErrorHelpText.GetLocalizedStringAsync().Result;
+            // Make ourselves unavailable if our image has an error.
+            bool available = false;
+            if (ReferenceImage != null)
+            {
+                available = ReferenceImage.NotLoaded || ReferenceImage.Valid;
+            }
+
+            if (available != IsAvailable())
+            {
+                SetButtonAvailable(available);
+            }
+
+            RefreshDescription();
         }
     }
 } // namespace TiltBrush
