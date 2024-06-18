@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
   m_Name: Strings_en
   m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: c84355079ab3f3e4f8f3812258805f86, type: 2}

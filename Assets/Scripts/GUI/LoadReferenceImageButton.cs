@@ -15,12 +15,17 @@
 using UnityEngine.Localization;
 using UnityEngine;
 
+using UnityEngine.Localization;
+using UnityEngine;
+
 namespace TiltBrush
 {
 
     public class LoadReferenceImageButton : BaseButton
     {
         public ReferenceImage ReferenceImage { get; set; }
+
+        [SerializeField] private LocalizedString m_ErrorHelpText;
 
         public void RefreshDescription()
         {

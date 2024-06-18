@@ -22,6 +22,8 @@ namespace TiltBrush
     {
         public ReferenceImage ReferenceImage { get; set; }
 
+        [SerializeField] private LocalizedString m_ErrorHelpText;
+
         public void RefreshDescription()
         {
             if (ReferenceImage != null)
@@ -43,7 +45,7 @@ namespace TiltBrush
         }
         override protected void OnButtonPressed()
         {
-            if (ReferenceImage == null)
+            if (ReferenceImage == null || !ReferenceImage.Valid)
             {
                 return;
             }
@@ -54,16 +56,18 @@ namespace TiltBrush
         {
             base.ResetState();
 
-            // Make ourselves unavailable if our image has an error.
-            bool available = false;
-            if (ReferenceImage != null)
+            if (ReferenceImage == null)
             {
-                available = ReferenceImage.NotLoaded || ReferenceImage.Valid;
+                return;
             }
 
-            if (available != IsAvailable())
+            if (!ReferenceImage.Valid)
             {
-                SetButtonAvailable(available);
+                SetDescriptionText(App.ShortenForDescriptionText(ReferenceImage.FileName), ImageErrorExtraDescription());
+            }
+            else
+            {
+                SetDescriptionText(App.ShortenForDescriptionText(ReferenceImage.FileName));
             }
 
             RefreshDescription();
@@ -75,6 +79,12 @@ namespace TiltBrush
             m_CurrentButtonTexture = rTexture;
             m_ButtonRenderer.material.mainTexture = rTexture;
             m_ButtonRenderer.material.SetFloat("_Stereoscopic", isStereo);
+        }
+
+
+        public string ImageErrorExtraDescription()
+        {
+            return m_ErrorHelpText.GetLocalizedStringAsync().Result;
         }
 
     }
