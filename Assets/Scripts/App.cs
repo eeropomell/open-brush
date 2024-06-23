@@ -600,8 +600,16 @@ namespace TiltBrush
             return "";
         }
 
+        private void OnMemoryLow()
+        {
+            Application.Quit();
+        }
+
         void Start()
         {
+
+            Application.lowMemory += OnMemoryLow;
+
             // Use of ControllerConsoleScript must wait until Start()
             ControllerConsoleScript.m_Instance.AddNewLine(GetStartupString());
 
